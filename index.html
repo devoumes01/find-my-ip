@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find My IP | Advanced Locator</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet Map CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-wrapper">
+        <header class="header">
+            <div class="search-container">
+                <input type="text" id="ip-input" placeholder="Enter an IP address (optional)" autocomplete="off">
+                <button id="search-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </button>
+            </div>
+            <button class="icon-btn" id="info-btn" title="What is this?">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            </button>
+        </header>
+
+        <main class="dashboard">
+            <!-- Hero IP Card -->
+            <section class="card hero-card">
+                <h2>IP Address</h2>
+                <div class="ip-display-lg" id="ip-display" title="Click to copy">
+                    <span id="ip-address">Loading...</span>
+                    <span class="copy-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    </span>
+                </div>
+                <div class="badge-container" id="badges">
+                    <!-- Badges injected by JS -->
+                </div>
+            </section>
+
+            <!-- Map Card -->
+            <section class="card map-card">
+                <div id="map"></div>
+                <!-- Overlay to prevent interaction before load -->
+                <div class="map-overlay"></div> 
+            </section>
+
+            <!-- Details Grid -->
+            <div class="grid-container">
+                <!-- Location Info -->
+                <section class="card detail-card">
+                    <h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        Location
+                    </h3>
+                    <div class="info-row">
+                        <span class="label">City</span>
+                        <span class="value" id="city">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Region</span>
+                        <span class="value" id="region">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Country</span>
+                        <span class="value" id="country">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Postal Code</span>
+                        <span class="value" id="postal">-</span>
+                    </div>
+                     <div class="info-row">
+                        <span class="label">Continent</span>
+                        <span class="value" id="continent">-</span>
+                    </div>
+                </section>
+
+                <!-- Network Info -->
+                <section class="card detail-card">
+                    <h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"></path><path d="M1.42 9a16 16 0 0 1 21.16 0"></path><path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path><line x1="12" y1="20" x2="12.01" y2="20"></line></svg>
+                        Network
+                    </h3>
+                    <div class="info-row">
+                        <span class="label">ISP</span>
+                        <span class="value" id="isp">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">ASN</span>
+                        <span class="value" id="asn">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Timezone</span>
+                        <span class="value" id="timezone">-</span>
+                    </div>
+                     <div class="info-row">
+                        <span class="label">Calling Code</span>
+                        <span class="value" id="calling-code">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Currency</span>
+                        <span class="value" id="currency">-</span>
+                    </div>
+                </section>
+
+                <!-- Device Info (Local) -->
+                <section class="card detail-card">
+                    <h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                        Your Device
+                    </h3>
+                    <div class="info-row">
+                        <span class="label">Browser</span>
+                        <span class="value" id="browser">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">OS</span>
+                        <span class="value" id="os">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Screen</span>
+                        <span class="value" id="screen">-</span>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Info Modal -->
+    <div class="modal-backdrop" id="info-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>What does this mean?</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-content">
+                <div class="term-group">
+                    <h3>🔍 Searching IPs</h3>
+                    <p>Enter any IP address (e.g., <code>8.8.8.8</code>) to find its physical location. This is useful for checking where a server is hosted or troubleshooting network issues.</p>
+                </div>
+                
+                <div class="term-group">
+                    <h3>🌐 IP Address</h3>
+                    <p>Your "digital home address". It identifies your device on the internet. Websites use it to send data back to you.</p>
+                </div>
+
+                <div class="term-group">
+                    <h3>🏢 ISP (Internet Service Provider)</h3>
+                    <p>The company that provides your internet connection (e.g., Verizon, Comcast, AT&T).</p>
+                </div>
+
+                <div class="term-group">
+                    <h3>🔢 ASN (Autonomous System Number)</h3>
+                    <p>A unique ID for a large network of IP addresses. It helps route traffic across the global internet efficiently.</p>
+                </div>
+                
+                <div class="term-group">
+                    <h3>📍 Geolocation</h3>
+                    <p>The estimated physical location of the IP. It's usually accurate to the city level, but rarely the exact street address.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">Copied to clipboard!</div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="script.js"></script>
+</body>
+</html>

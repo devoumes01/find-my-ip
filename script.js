@@ -720,6 +720,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // --- Mobile Viewport Fix ---
+    function setAppHeight() {
+        const doc = document.documentElement;
+        doc.style.setProperty('--app-height', `${window.innerHeight}px`);
+    }
+    
+    window.addEventListener('resize', setAppHeight);
+    setAppHeight(); // Call on load
+
     // --- Initialization ---
     initDeviceInfo();
     fetchIPData(); // Load own IP on start

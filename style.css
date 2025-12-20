@@ -619,9 +619,9 @@ h2 {
         left: 0;
         right: 0;
         bottom: 0;
-        width: 100% !important;
-        height: 100% !important; /* Fallback */
-        height: 100dvh !important; /* Modern mobile browsers */
+        width: 100vw !important; /* Force full width */
+        height: 100vh; /* Fallback */
+        height: var(--app-height, 100dvh) !important; /* Use JS calculated height or dynamic viewport */
         max-width: none;
         max-height: none;
         border-radius: 0;

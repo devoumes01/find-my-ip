@@ -16,6 +16,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const currencyEl = document.getElementById('currency');
     const callingCodeEl = document.getElementById('calling-code');
     
+    // Demographics Elements
+    const populationEl = document.getElementById('population');
+    const languagesEl = document.getElementById('languages');
+    const tldEl = document.getElementById('tld');
+    const areaCodeEl = document.getElementById('area-code');
+
     // Device Elements
     const browserEl = document.getElementById('browser');
     const osEl = document.getElementById('os');
@@ -103,7 +109,13 @@ document.addEventListener('DOMContentLoaded', () => {
         currencyEl.textContent = data.currency || '-';
         callingCodeEl.textContent = data.country_calling_code ? `+${data.country_calling_code}` : '-';
 
-        // 4. Update Map
+        // 4. Update Demographics
+        populationEl.textContent = data.country_population ? new Intl.NumberFormat().format(data.country_population) : '-';
+        languagesEl.textContent = data.languages ? data.languages.split(',')[0] : '-'; // just show first
+        tldEl.textContent = data.country_tld || '-';
+        areaCodeEl.textContent = data.country_area ? `${new Intl.NumberFormat().format(data.country_area)} km²` : '-';
+
+        // 5. Update Map
         if (data.latitude && data.longitude) {
             updateMap(data.latitude, data.longitude, data.city);
         }

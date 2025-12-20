@@ -25,6 +25,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const ipInput = document.getElementById('ip-input');
     const searchBtn = document.getElementById('search-btn');
     const infoBtn = document.getElementById('info-btn');
+    const historyBtn = document.getElementById('history-btn');
+    const historyPanel = document.getElementById('history-panel');
+    const historyList = document.getElementById('history-list');
+    const clearHistoryBtn = document.getElementById('clear-history');
+    
     const toast = document.getElementById('toast');
     const ipDisplay = document.getElementById('ip-display');
     
@@ -54,6 +59,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             updateUI(data);
+            
+            // Save to history if it's a specific search OR just the user's IP (limit redundancy maybe?)
+            // We'll save everything valid
+            addToHistory(data.ip, `${data.city}, ${data.country_name}`);
+            
         } catch (error) {
             console.error(error);
             ipAddressElement.textContent = 'Error';
@@ -106,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Dark Mode Map Tiles (CartoDB Dark Matter)
             L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributor',
                 subdomains: 'abcd',
                 maxZoom: 19
             }).addTo(map);
@@ -115,10 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Add user marker
-        // Clear existing markers first (optional but good practice if moving a lot)
-        // For simplicity, just adding a new one is okay as Leaflet handles layers well, 
-        // but let's be clean and remove old ones if we tracked them. 
-        // For this simple app, just adding on top is fine or we can clear:
         map.eachLayer((layer) => {
             if (layer instanceof L.Marker) {
                 map.removeLayer(layer);
@@ -127,6 +133,52 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const marker = L.marker([lat, lng]).addTo(map);
         marker.bindPopup(`<b>${label || 'Location'}</b><br>Lat: ${lat}<br>Lng: ${lng}`).openPopup();
+    }
+
+    // --- Search History Logic ---
+    function addToHistory(ip, location) {
+        let history = JSON.parse(localStorage.getItem('ip_history')) || [];
+        
+        // Remove duplicates (move to top)
+        history = history.filter(item => item.ip !== ip);
+        
+        // Add new
+        history.unshift({ ip, location, timestamp: Date.now() });
+        
+        // Limit to 10
+        if (history.length > 10) history.pop();
+        
+        localStorage.setItem('ip_history', JSON.stringify(history));
+        renderHistory();
+    }
+
+    function renderHistory() {
+        const history = JSON.parse(localStorage.getItem('ip_history')) || [];
+        historyList.innerHTML = '';
+        
+        if (history.length === 0) {
+            historyList.innerHTML = '<div style="color: var(--text-secondary); padding: 0.5rem; text-align: center;">No recent searches</div>';
+            return;
+        }
+
+        history.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'history-item';
+            div.innerHTML = `
+                <span class="history-ip">${item.ip}</span>
+                <span class="history-loc">${item.location}</span>
+            `;
+            div.addEventListener('click', () => {
+                fetchIPData(item.ip);
+                historyPanel.classList.remove('show');
+            });
+            historyList.appendChild(div);
+        });
+    }
+
+    function clearHistory() {
+        localStorage.removeItem('ip_history');
+        renderHistory();
     }
 
     // --- Device Info Logic ---
@@ -200,6 +252,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // History Events
+    historyBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        historyPanel.classList.toggle('show');
+        renderHistory();
+    });
+
+    clearHistoryBtn.addEventListener('click', clearHistory);
+
+    // Close panels when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!historyPanel.contains(e.target) && e.target !== historyBtn && !historyBtn.contains(e.target)) {
+            historyPanel.classList.remove('show');
+        }
+    });
+
+
     // Modal Events
     infoBtn.addEventListener('click', openModal);
     closeModalBtn.addEventListener('click', closeModal);
@@ -213,8 +282,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Close modal on Escape key
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modalBackdrop.classList.contains('open')) {
-            closeModal();
+        if (e.key === 'Escape') {
+            if (modalBackdrop.classList.contains('open')) closeModal();
+            if (historyPanel.classList.contains('show')) historyPanel.classList.remove('show');
         }
     });
 

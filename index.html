@@ -152,34 +152,20 @@
     <div class="modal-backdrop" id="info-modal">
         <div class="modal">
             <div class="modal-header">
-                <h2>What does this mean?</h2>
+                <h2>IP Learning Center</h2>
                 <button class="close-modal">&times;</button>
             </div>
-            <div class="modal-content">
-                <div class="term-group">
-                    <h3>🔍 Searching IPs</h3>
-                    <p>Enter any IP address (e.g., <code>8.8.8.8</code>) to find its physical location. This is useful for checking where a server is hosted or troubleshooting network issues.</p>
-                </div>
-                
-                <div class="term-group">
-                    <h3>🌐 IP Address</h3>
-                    <p>Your "digital home address". It identifies your device on the internet. Websites use it to send data back to you.</p>
-                </div>
+            
+            <div class="modal-body" id="modal-body">
+                <!-- Content injected by JS -->
+            </div>
 
-                <div class="term-group">
-                    <h3>🏢 ISP (Internet Service Provider)</h3>
-                    <p>The company that provides your internet connection (e.g., Verizon, Comcast, AT&T).</p>
+            <div class="modal-footer">
+                <button class="nav-btn" id="prev-slide" disabled>Previous</button>
+                <div class="pagination-dots" id="pagination-dots">
+                    <!-- Dots injected by JS -->
                 </div>
-
-                <div class="term-group">
-                    <h3>🔢 ASN (Autonomous System Number)</h3>
-                    <p>A unique ID for a large network of IP addresses. It helps route traffic across the global internet efficiently.</p>
-                </div>
-                
-                <div class="term-group">
-                    <h3>📍 Geolocation</h3>
-                    <p>The estimated physical location of the IP. It's usually accurate to the city level, but rarely the exact street address.</p>
-                </div>
+                <button class="nav-btn" id="next-slide">Next</button>
             </div>
         </div>
     </div>

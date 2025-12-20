@@ -216,9 +216,118 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
-    // --- Modal Logic ---
+    // --- Lesson Carousel Logic ---
+    const lessons = [
+        {
+            title: "Lesson 1: What is an IP Address?",
+            icon: "🌐",
+            content: `
+                <div class="lesson-image"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg></div>
+                <p>An <strong>IP (Internet Protocol) Address</strong> is like a digital home address for your device. Just as your physical mail needs a street address to reach you, internet data needs an IP address to find your computer or phone.</p>
+                <p>Every time you visit a website, your device sends a request with your IP address so the website knows where to send the information back.</p>
+                <ul>
+                    <li><span class="key-term">Public IP:</span> The address the outside world sees (assigned by your ISP).</li>
+                    <li><span class="key-term">Private IP:</span> The address used only within your home Wi-Fi network (usually starts with 192.168...).</li>
+                </ul>
+            `
+        },
+        {
+            title: "Lesson 2: IPv4 vs IPv6",
+            icon: "🔢",
+            content: `
+               <div class="lesson-image"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg></div>
+               <p>The internet is upgrading! There are two main versions of IP addresses:</p>
+               <ul>
+                   <li><span class="key-term">IPv4 (Old):</span> Looks like <code>192.168.1.1</code>. We only have about 4 billion of these, and we ran out of them years ago!</li>
+                   <li><span class="key-term">IPv6 (New):</span> Looks like <code>2001:0db8:85a3...</code>. It uses hexadecimals and allows for an almost infinite number of addresses—enough for every grain of sand on Earth to have its own IP!</li>
+               </ul>
+               <p>Your connection likely uses both simultaneously right now.</p>
+            `
+        },
+        {
+            title: "Lesson 3: How Geolocation Works",
+            icon: "📍",
+            content: `
+                <div class="lesson-image"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></div>
+                <p>How do we know where you are? It's not magic, and it's not GPS!</p>
+                <p>We use <strong>IP Geolocation Databases</strong>. Companies map large blocks of IP addresses to specific ISPs in specific cities.</p>
+                <p><strong>Accuracy:</strong> It's usually accurate to the <em>City</em> or <em>Zip Code</em> level, but rarely your exact house. It often points to your ISP's local switching center.</p>
+                <p><em>Fun Fact:</em> Mobile data IPs (4G/5G) are notoriously inaccurate because you might be routed through a tower in a different city.</p>
+            `
+        },
+        {
+            title: "Lesson 4: Understanding Network Terms",
+            icon: "🏢",
+            content: `
+                <div class="lesson-image"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"></path><path d="M1.42 9a16 16 0 0 1 21.16 0"></path></svg></div>
+                <p>When you look up an IP, you'll see these terms:</p>
+                <ul>
+                    <li><span class="key-term">ISP (Internet Service Provider):</span> The company you pay for internet (e.g., Verizon, AT&T).</li>
+                    <li><span class="key-term">ASN (Autonomous System Number):</span> A unique ID for a large network on the internet. Big companies (Google, Netflix, ISPs) have their own ASNs to route traffic efficiently. It's like a Zip Code for the internet backbone.</li>
+                </ul>
+            `
+        },
+        {
+            title: "Lesson 5: Privacy & VPNs",
+            icon: "🛡️",
+            content: `
+                <div class="lesson-image"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></div>
+                <p>Your IP address is public information to every site you visit. They can use it to track you or block you.</p>
+                <p><strong>How to hide it?</strong></p>
+                <ul>
+                    <li><span class="key-term">VPN (Virtual Private Network):</span> Routes your traffic through a server in another location. Sites see the VPN's IP, not yours.</li>
+                    <li><span class="key-term">Proxy:</span> Similar to a VPN but usually for just one app or browser tab.</li>
+                </ul>
+                <p>If you see a location here that isn't yours, you might be connected to a VPN!</p>
+            `
+        }
+    ];
+
+    let currentSlideIndex = 0;
+    const modalBody = document.getElementById('modal-body');
+    const prevBtn = document.getElementById('prev-slide');
+    const nextBtn = document.getElementById('next-slide');
+    const dotsContainer = document.getElementById('pagination-dots');
+
+    function renderSlide(index) {
+        const lesson = lessons[index];
+        modalBody.innerHTML = `
+            <div class="lesson-slide active">
+                <h3>${lesson.icon} ${lesson.title}</h3>
+                ${lesson.content}
+            </div>
+        `;
+        
+        // Update dots
+        dotsContainer.innerHTML = '';
+        lessons.forEach((_, i) => {
+            const dot = document.createElement('div');
+            dot.className = `dot ${i === index ? 'active' : ''}`;
+            dotsContainer.appendChild(dot);
+        });
+
+        // Update buttons
+        prevBtn.disabled = index === 0;
+        nextBtn.textContent = index === lessons.length - 1 ? 'Finish' : 'Next';
+        
+        // Animate scrollTop
+        modalBody.scrollTop = 0;
+    }
+
+    function changeSlide(direction) {
+        const newIndex = currentSlideIndex + direction;
+        if (newIndex >= 0 && newIndex < lessons.length) {
+            currentSlideIndex = newIndex;
+            renderSlide(currentSlideIndex);
+        } else if (newIndex >= lessons.length) {
+            closeModal();
+        }
+    }
+
     function openModal() {
         modalBackdrop.classList.add('open');
+        currentSlideIndex = 0;
+        renderSlide(0);
     }
 
     function closeModal() {
@@ -227,6 +336,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Event Listeners ---
     
+    // Slide Navigation
+    prevBtn.addEventListener('click', () => changeSlide(-1));
+    nextBtn.addEventListener('click', () => changeSlide(1));
+
     // Search
     function handleSearch() {
         const ip = ipInput.value.trim();

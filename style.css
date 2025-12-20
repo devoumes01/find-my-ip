@@ -374,6 +374,7 @@ h2 {
 }
 
 /* Modal Styles */
+/* Modal Styles */
 .modal-backdrop {
     position: fixed;
     top: 0;
@@ -400,13 +401,15 @@ h2 {
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 20px;
     width: 90%;
-    max-width: 500px;
-    max-height: 80vh;
-    overflow-y: auto;
+    max-width: 600px;
+    height: 85vh; /* Fixed height for consistent slide layout */
+    display: flex;
+    flex-direction: column;
     position: relative;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     transform: translateY(20px);
     transition: transform 0.3s ease;
+    overflow: hidden;
 }
 
 .modal-backdrop.open .modal {
@@ -414,15 +417,13 @@ h2 {
 }
 
 .modal-header {
-    padding: 1.5rem;
+    padding: 1.25rem 1.5rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: sticky;
-    top: 0;
     background: #1e293b;
-    z-index: 10;
+    flex-shrink: 0;
 }
 
 .modal-header h2 {
@@ -439,36 +440,172 @@ h2 {
     line-height: 1;
     cursor: pointer;
     padding: 0.5rem;
+    transition: color 0.2s;
 }
 
 .close-modal:hover {
     color: white;
 }
 
-.modal-content {
+/* Modal Content & Pagination */
+.modal-body {
+    flex: 1;
+    overflow-y: auto;
     padding: 1.5rem;
+    scroll-behavior: smooth;
 }
 
-.term-group {
+.lesson-slide {
+    display: none;
+    animation: fadeIn 0.4s ease;
+}
+
+.lesson-slide.active {
+    display: block;
+}
+
+.lesson-image {
+    width: 100%;
+    height: 120px;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+    border-radius: 12px;
     margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: var(--accent);
 }
 
-.term-group h3 {
-    color: var(--accent);
-    margin-bottom: 0.5rem;
+.lesson-slide h3 {
+    font-size: 1.5rem;
+    color: white;
+    margin-bottom: 1rem;
+    display: block;
+    line-height: 1.3;
+}
+
+.lesson-slide p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 1rem;
     font-size: 1rem;
 }
 
-.term-group p {
+.lesson-slide ul {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
     color: var(--text-secondary);
-    font-size: 0.95rem;
-    line-height: 1.5;
 }
 
-.term-group code {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 0.1rem 0.3rem;
-    border-radius: 4px;
-    font-family: monospace;
-    color: #e2e8f0;
+.lesson-slide li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+}
+
+.key-term {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+/* Modal Footer */
+.modal-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #0f172a;
+    flex-shrink: 0;
+}
+
+.pagination-dots {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: all 0.3s;
+}
+
+.dot.active {
+    background: var(--primary-color);
+    transform: scale(1.2);
+}
+
+.nav-btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.nav-btn:hover:not(:disabled) {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.nav-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+    
+    .card {
+        padding: 1.25rem;
+    }
+
+    .ip-display-lg {
+        font-size: 1.75rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .copy-icon {
+        display: none; 
+    }
+
+    .modal {
+        width: 100%;
+        height: 100%;
+        max-height: 100vh;
+        border-radius: 0;
+        transform: translateY(0);
+        margin: 0;
+    }
+    
+    .modal-header {
+        padding: 1rem;
+    }
+    
+    .close-modal {
+        padding: 0.5rem;
+    }
+
+    .modal-body {
+        padding: 1.5rem 1rem;
+    }
+    
+    .modal-footer {
+        padding: 1rem;
+    }
 }

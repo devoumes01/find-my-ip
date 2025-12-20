@@ -280,7 +280,48 @@ document.addEventListener('DOMContentLoaded', () => {
                 </ul>
                 <p>If you see a location here that isn't yours, you might be connected to a VPN!</p>
             `
-        }
+        },
+        {
+            title: "Lesson 6: Static vs. Dynamic IPs",
+            icon: "🔄",
+            content: `
+                <div class="lesson-image"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg></div>
+                <p>Most home internet connections have a <strong>Dynamic IP</strong>.</p>
+                <ul>
+                    <li><span class="key-term">Dynamic:</span> Your ISP gives you a temporary IP from a pool. If you restart your router, you might get a new one. It's cost-effective and sufficient for most users.</li>
+                    <li><span class="key-term">Static:</span> A permanent IP that never changes. Businesses use these for hosting servers or CCTV so they can always be found at the same address.</li>
+                </ul>
+            `
+        },
+        {
+            title: "Lesson 7: The Tor Network",
+            icon: "🧅",
+            content: `
+                <div class="lesson-image"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg></div>
+                <p><strong>Tor (The Onion Router)</strong> is a privacy network that bounces your traffic through three random volunteer nodes around the world.</p>
+                <p>Each "hop" decrypts one layer of encryption (like an onion), meaning no single node knows both who you are and where you are going.</p>
+                <p>It's much slower than a VPN but provides extreme anonymity.</p>
+            `
+        },
+        {
+            title: "Lesson 8: What is DNS?",
+            icon: "📖",
+            content: `
+                <div class="lesson-image"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg></div>
+                <p><strong>DNS (Domain Name System)</strong> is the phonebook of the internet.</p>
+                <p>Computers don't understand <code>google.com</code>; they only understand IP addresses like <code>142.250.xxx.xxx</code>.</p>
+                <p>When you type a URL, a DNS server converts that name into an IP address so your browser can load the page.</p>
+            `
+        },
+        {
+            title: "Lesson 9: DDoS Attacks",
+            icon: "🚨",
+            content: `
+                <div class="lesson-image"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></div>
+                <p><strong>Distributed Denial of Service (DDoS)</strong> is a cyberattack where thousands of hacked devices (a "botnet") all send traffic to one IP address at the same time.</p>
+                <p>This overwhelms the target server, causing it to crash or become slow for legitimate users. IP protection services help filter out this "bad" traffic.</p>
+            `
+        } 
     ];
 
     let currentSlideIndex = 0;

